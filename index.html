@@ -1,0 +1,792 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Our Forever World ❤️</title>
+
+<style>
+*{box-sizing:border-box}
+:root{
+ --pink:#ff9ec4;--purple:#9d78d6;--glass:#ffffff19;
+}
+body{
+ margin:0;background:#17152d;color:white;
+ font-family:'Trebuchet MS',Arial,sans-serif;
+ overflow-x:hidden;
+}
+button{font:inherit;cursor:pointer}
+button:active{transform:scale(.95)}
+#music{
+ position:fixed;top:-100px;left:-100px;
+}
+nav{
+ position:sticky;top:0;z-index:20;
+ display:flex;justify-content:space-between;align-items:center;
+ padding:13px 17px;
+ background:#211b39ed;backdrop-filter:blur(15px);
+ border-bottom:1px solid #ffffff25;
+}
+.logo{font-family:Georgia;font-size:21px;color:#ffbddb}
+.musicbtn,.backbtn{
+ background:#ffffff20;color:white;border:1px solid #ffffff40;
+ padding:10px 15px;border-radius:25px;
+}
+.hero{
+ text-align:center;padding:35px 15px 22px;
+ background:radial-gradient(ellipse at top,#8d548f,#29213e 70%);
+}
+.hero h1{
+ font-family:Georgia;font-size:clamp(30px,6vw,52px);
+ margin:12px 0;color:#ffe1ef;
+ text-shadow:0 5px 20px #ff8fc4;
+}
+.hero p{color:#eacde3}
+.heart{color:#ff8dbb}
+.container{width:min(1100px,94%);margin:auto}
+.glass{
+ background:var(--glass);border:1px solid #ffffff28;
+ border-radius:22px;padding:18px;
+ backdrop-filter:blur(15px);
+ box-shadow:0 15px 40px #0003;
+}
+.section-title{text-align:center;margin:28px 0 18px}
+.section-title h2{font-family:Georgia;color:#ffd3e8}
+.grid{
+ display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+}
+.gamecard{
+ min-width:0;border:1px solid #ffffff35;
+ border-radius:19px;overflow:hidden;
+ background:linear-gradient(145deg,#ffffff20,#ffffff08);
+ cursor:pointer;transition:.25s;
+}
+.gamecard:hover{transform:translateY(-5px);border-color:#ffadd1}
+.gameart{
+ height:130px;display:grid;place-items:center;
+ font-size:65px;
+ background:linear-gradient(140deg,#f4a7c7,#8468ba);
+ text-shadow:0 8px 15px #4c315b88;
+}
+.gameinfo{padding:12px}
+.gameinfo h3{margin:0 0 7px;font-size:16px}
+.gameinfo p{margin:0;color:#e3cce2;font-size:12px;line-height:1.5}
+.playtag{
+ display:inline-block;margin-top:10px;
+ background:#ffb7d6;color:#552b54;
+ padding:7px 14px;border-radius:20px;
+ font-weight:bold;font-size:12px;
+}
+#playScreen{display:none;margin:25px auto 45px}
+.gamehead{
+ display:flex;justify-content:space-between;align-items:center;
+ gap:10px;flex-wrap:wrap;margin-bottom:15px;
+}
+.gamehead h2{font-family:Georgia;color:#ffcee3;margin:0}
+.gamearea{
+ min-height:400px;position:relative;overflow:hidden;
+ border-radius:23px;border:1px solid #ffffff40;
+ background:linear-gradient(#e9a9cb,#b07dbd 55%,#477d68 56%,#245441);
+ touch-action:none;
+}
+.gamearea button{touch-action:manipulation}
+.hud{
+ display:flex;justify-content:space-between;gap:10px;
+ flex-wrap:wrap;margin:13px 0;
+}
+.stat{
+ background:#ffffff19;padding:10px 15px;border-radius:15px;
+ font-size:13px;
+}
+.actions{
+ display:flex;gap:9px;justify-content:center;
+ flex-wrap:wrap;margin-top:15px;
+}
+.action{
+ border:0;border-radius:25px;
+ background:linear-gradient(135deg,#ffd1e5,#ff91bd);
+ color:#54234d;padding:12px 17px;font-weight:bold;
+ box-shadow:0 5px 15px #0003;
+}
+.action.alt{background:#ffffff20;color:white;border:1px solid #ffffff50}
+.instruction{
+ color:#ffe2f1;text-align:center;line-height:1.6;
+ font-size:14px;padding:10px;
+}
+.object{
+ position:absolute;user-select:none;
+ touch-action:none;cursor:grab;
+ font-size:43px;
+ filter:drop-shadow(0 8px 6px #17233370);
+}
+.object:active{cursor:grabbing}
+.ground{
+ position:absolute;bottom:-100px;left:-10%;width:120%;
+ height:220px;border-radius:50%;background:#28543c;
+}
+.pond{
+ position:absolute;bottom:65px;left:34%;width:32%;
+ height:85px;border-radius:50%;
+ background:linear-gradient(120deg,#b4f2ed,#3984b3);
+ box-shadow:inset 0 0 20px white;
+}
+#messagePage{
+ display:none;text-align:center;margin:35px auto;
+ max-width:750px;line-height:1.9;
+}
+#messagePage img{
+ width:min(350px,95%);border-radius:24px;
+ border:3px solid #ffb8d7;
+ box-shadow:0 10px 35px #ff8cbd40;
+}
+.lovecode{
+ background:#100e22;border:1px solid #ffb4d4;
+ border-radius:17px;padding:20px;
+ text-align:left;color:#ffc2df;
+ font-family:monospace;line-height:2;
+ overflow-wrap:anywhere;
+}
+.loveletter{
+ font-family:Georgia,serif;
+ font-size:17px;color:#ffe5ef;
+ text-align:left;line-height:2;
+}
+#toast{
+ position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+ background:#ffe0ed;color:#59264d;padding:12px 22px;
+ border-radius:25px;z-index:50;display:none;
+ box-shadow:0 5px 25px #0005;
+}
+footer{text-align:center;padding:30px;color:#d8bad6}
+@media(max-width:650px){
+ .grid{grid-template-columns:repeat(2,1fr);gap:9px}
+ .gameart{height:100px;font-size:48px}
+ .gameinfo{padding:10px}
+ .gameinfo h3{font-size:14px}
+ .gamearea{min-height:420px}
+}
+@media(max-width:370px){
+ .grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ONE PERSISTENT MUSIC PLAYER FOR THE WHOLE WEBSITE -->
+<audio id="music" src="song3.mp3" loop preload="auto"></audio>
+
+<nav>
+ <div class="logo">♡ Our Forever</div>
+ <button class="musicbtn" onclick="toggleMusic()" id="musicButton">♫ Play Music</button>
+</nav>
+
+<section class="hero">
+ <div style="font-size:42px">💗 🌸 💗</div>
+ <h1>Our Little Universe</h1>
+ <p>A magical world made with love, only for my Mum.</p>
+ <p>12 little adventures. One beautiful love story. ❤️</p>
+</section>
+
+<div class="container">
+
+<section id="home">
+ <div class="glass" style="text-align:center;margin-top:20px">
+  <h2 style="font-family:Georgia;color:#ffd2e7">Welcome, My Princess 👑</h2>
+  <p style="color:#ead5e8;line-height:1.8">
+   এখানে তুমি নিজের মতো করে একটা সুন্দর পৃথিবী তৈরি করতে পারবে।
+   প্রতিটি game-এর মধ্যে লুকিয়ে আছে তোমার জন্য আমার ভালোবাসা।
+  </p>
+  <button class="action" onclick="startMusic()">Start Our Adventure ❤️</button>
+ </div>
+
+ <div class="section-title">
+  <h2>Choose Your Adventure</h2>
+  <p style="color:#d9bddb">12 unique little worlds waiting for you</p>
+ </div>
+
+ <div class="grid" id="gameGrid"></div>
+
+ <div style="text-align:center;margin:35px 0">
+  <button class="action" onclick="openMessage()">A Special Surprise For You 💌</button>
+ </div>
+</section>
+
+<section id="playScreen">
+ <div class="gamehead">
+  <div>
+   <h2 id="gameTitle">Game</h2>
+   <div style="font-size:12px;color:#e9c8e1;margin-top:5px" id="gameSubtitle"></div>
+  </div>
+  <button class="backbtn" onclick="goHome()">← All Games</button>
+ </div>
+
+ <div class="glass">
+  <div class="hud">
+   <div class="stat" id="score">⭐ Score: 0</div>
+   <div class="stat" id="level">🎯 Mission: 1</div>
+   <div class="stat" id="timer">⏱ Time: ∞</div>
+  </div>
+  <div class="instruction" id="instructions"></div>
+  <div class="gamearea" id="arena"></div>
+  <div class="actions" id="gameActions"></div>
+  <div id="feedback" class="instruction">Let's play! ❤️</div>
+ </div>
+</section>
+
+<section id="messagePage" class="glass">
+ <div style="font-size:50px">💗</div>
+ <h1 style="font-family:Georgia;color:#ffbdd9">For My Mum</h1>
+ <p style="color:#eacfe5">A little memory, made with a lot of love.</p>
+
+ <!-- YOUR PHOTO -->
+ <img src="photo.png" alt="Our beautiful memory">
+
+ <h2 style="color:#ffc8df;font-family:Georgia">🔐 Our Forever Love Code</h2>
+
+ <div class="lovecode">
+ <span style="color:#a8e9c3">// Aritra's heart.exe</span><br>
+ const myHeart = {<br>
+ &nbsp; owner: "My Mum ❤️",<br>
+ &nbsp; love: Infinity,<br>
+ &nbsp; loyalty: "Forever",<br>
+ &nbsp; favouritePerson: "YOU",<br>
+ &nbsp; distance: "Never matters"<br>
+ };<br><br>
+ if (you === myWorld) {<br>
+ &nbsp; heart.beatsFor(you);<br>
+ &nbsp; love.neverEnds();<br>
+ &nbsp; stayTogether.forever();<br>
+ }<br><br>
+ <span style="color:#f4a7d0">// Error 404: Someone better than you not found.</span>
+ </div>
+
+ <h2 style="font-family:Georgia;color:#ffbdd9;margin-top:35px">
+ My Dearest Mum... 🥺❤️
+ </h2>
+
+ <div class="loveletter">
+  জানো Mum, এই website-টা শুধু একটা website নয়।
+  এর প্রতিটা ছোট্ট জিনিসের মধ্যে আমি আমার ভালোবাসাটুকু
+  লুকিয়ে রেখেছি। তুমি যখন এই game-গুলো খেলবে,
+  আমি চাই তোমার মুখে একটু হলেও হাসি ফুটুক।
+
+  <br><br>
+
+  আমি জানি না কীভাবে বোঝাব যে তুমি আমার কাছে কতটা
+  গুরুত্বপূর্ণ। কখনো কখনো নিজের অনুভূতিগুলো
+  ঠিকভাবে প্রকাশ করতে পারি না। হয়তো অনেক কথা
+  মনের মধ্যে থেকে যায়, হয়তো সবসময় তোমাকে বুঝিয়ে
+  উঠতে পারি না কতটা ভালোবাসি।
+
+  <br><br>
+
+  কিন্তু বিশ্বাস করো Mum, তোমাকে নিয়ে আমার
+  স্বপ্নগুলো সত্যিই অনেক বড়। আমি চাই তোমার
+  খারাপ দিনের কারণ নয়, তোমার ভালো থাকার একটা
+  কারণ হতে। তোমার মন খারাপ হলে তোমার পাশে বসে
+  থাকতে চাই। তুমি হাসলে তোমার সঙ্গে হাসতে চাই।
+  আর তুমি কাঁদলে তোমার চোখের জল মুছে দিতে চাই।
+
+  <br><br>
+
+  কখনো আমাদের মধ্যে অভিমান হবে, রাগ হবে,
+  ভুল বোঝাবুঝিও হবে। কিন্তু আমি চাই না
+  সেই ছোট ছোট বিষয়গুলো আমাদের ভালোবাসার
+  থেকে বড় হয়ে উঠুক।
+
+  <br><br>
+
+  আমি তোমার সঙ্গে শুধু সুন্দর মুহূর্ত কাটাতে চাই না,
+  কঠিন সময়গুলোও একসঙ্গে পার করতে চাই।
+  তোমার ছোট ছোট ইচ্ছেগুলো মনে রাখতে চাই।
+  তোমার পছন্দের জিনিসগুলো জানতে চাই।
+  একদিন তোমার সঙ্গে বাস্তবে এইসব স্বপ্ন
+  সত্যি করতে চাই।
+
+  <br><br>
+
+  Mum, তুমি আমার জীবনের এমন একজন মানুষ,
+  যাকে হারানোর কথা ভাবতেও আমার ভালো লাগে না।
+  আমি চাই তুমি সবসময় নিজের মতো করে হাসো,
+  নিজের স্বপ্নগুলো পূরণ করো।
+  আর সেই পথচলায় আমি তোমার পাশে থাকি।
+
+  <br><br>
+
+  তোমাকে প্রতিদিন নতুন করে ভালোবাসতে চাই।
+  শুধু আজ নয়, শুধু কাল নয়,
+  আমাদের জীবনের প্রতিটা আগামীকালেও।
+
+  <br><br>
+
+  <strong>
+  I DON'T NEED A PERFECT WORLD.<br>
+  I JUST NEED YOU IN MY WORLD.<br><br>
+  I LOVE YOU SO MUCH, MY MUM. ❤️
+  </strong>
+
+  <br><br>
+  চিরকাল তোমার,<br>
+  <strong>তোমার Aritra. 💗</strong>
+ </div>
+
+ <div style="font-size:55px;margin:25px">💍</div>
+ <h2 style="font-family:Georgia;color:#ffc4dc">Will You Stay In My Story Forever?</h2>
+ <button class="action" onclick="celebrate()">YES, FOREVER ❤️</button>
+ <button class="action alt" onclick="goHome()">Back to Our Games</button>
+</section>
+
+</div>
+
+<footer>
+ Made with endless love by Aritra ❤️<br>
+ For my one and only Mum.
+</footer>
+
+<div id="toast"></div>
+
+<script>
+/* ---------------- MUSIC ---------------- */
+
+const music=document.getElementById("music");
+music.volume=.55;
+
+function startMusic(){
+ music.play().then(()=>{
+  document.getElementById("musicButton").textContent="♫ Music On";
+ }).catch(()=>{
+  document.getElementById("musicButton").textContent="♫ Tap to Play";
+ });
+}
+function toggleMusic(){
+ if(music.paused)startMusic();
+ else{
+  music.pause();
+  document.getElementById("musicButton").textContent="♫ Music Off";
+ }
+}
+document.addEventListener("pointerdown",()=>{
+ if(music.paused)startMusic();
+},{once:true});
+
+/* ---------------- GAME DATA ---------------- */
+
+const games=[
+ ["Dream House Builder","🏡","Build and decorate your dream house."],
+ ["Micky Pet Care","🐶","Feed, clean and take care of your pet."],
+ ["Love Café","☕","Serve customers and complete orders."],
+ ["Flower Shop","🌷","Collect flowers and create bouquets."],
+ ["Aquarium World","🐠","Take care of your colourful fish."],
+ ["Dream Bedroom","🛏️","Design your perfect bedroom."],
+ ["Wedding Planner","💍","Prepare a magical wedding."],
+ ["Moonlight Camping","🏕️","Keep your campfire alive."],
+ ["Love Boat","🚤","Navigate and collect floating hearts."],
+ ["Couple Paradise","🏝️","Build your dream island."],
+ ["Love Bakery","🧁","Prepare delicious cakes."],
+ ["Heart Treasure Hunt","🗝️","Solve the hidden treasure puzzle."]
+];
+
+let current=0,score=0,mission=1,completed=0;
+let interval=null,gameState={},dragging=null;
+
+const grid=document.getElementById("gameGrid");
+
+games.forEach((g,i)=>{
+ let card=document.createElement("div");
+ card.className="gamecard";
+ card.innerHTML=`
+ <div class="gameart">${g[1]}</div>
+ <div class="gameinfo">
+ <h3>${i+1}. ${g[0]}</h3>
+ <p>${g[2]}</p>
+ <span class="playtag">PLAY NOW →</span>
+ </div>`;
+ card.onclick=()=>startGame(i);
+ grid.appendChild(card);
+});
+
+/* ---------------- NAVIGATION ---------------- */
+
+function goHome(){
+ clearInterval(interval);
+ document.getElementById("playScreen").style.display="none";
+ document.getElementById("messagePage").style.display="none";
+ document.getElementById("home").style.display="block";
+ startMusic();
+ window.scrollTo(0,0);
+}
+function openMessage(){
+ clearInterval(interval);
+ document.getElementById("home").style.display="none";
+ document.getElementById("playScreen").style.display="none";
+ document.getElementById("messagePage").style.display="block";
+ startMusic();
+ window.scrollTo(0,0);
+}
+function startGame(i){
+ current=i;score=0;mission=1;
+ gameState={};
+ clearInterval(interval);
+ document.getElementById("home").style.display="none";
+ document.getElementById("messagePage").style.display="none";
+ document.getElementById("playScreen").style.display="block";
+ document.getElementById("gameTitle").textContent=games[i][1]+" "+games[i][0];
+ document.getElementById("gameSubtitle").textContent=games[i][2];
+ updateHUD();
+ renderGame();
+ window.scrollTo(0,0);
+ startMusic();
+}
+
+/* ---------------- GAME ENGINE ---------------- */
+
+const arena=document.getElementById("arena");
+const actions=document.getElementById("gameActions");
+
+function setInstruction(t){
+ document.getElementById("instructions").textContent=t;
+}
+function say(t){
+ document.getElementById("feedback").textContent=t;
+}
+function updateHUD(){
+ document.getElementById("score").textContent="⭐ Score: "+score;
+ document.getElementById("level").textContent="🎯 Mission: "+mission;
+ document.getElementById("timer").textContent="⏱ Time: ∞";
+}
+function addScore(n=1){
+ score+=n;updateHUD();
+}
+function clearGame(){
+ arena.innerHTML="";
+ actions.innerHTML="";
+}
+function btn(label,fn,alt=false){
+ let b=document.createElement("button");
+ b.className="action"+(alt?" alt":"");
+ b.textContent=label;
+ b.onclick=fn;
+ actions.appendChild(b);
+ return b;
+}
+function object(symbol,x,y,size=48){
+ let el=document.createElement("div");
+ el.className="object";
+ el.textContent=symbol;
+ el.style.left=x+"%";
+ el.style.top=y+"%";
+ el.style.fontSize=size+"px";
+ arena.appendChild(el);
+ return el;
+}
+function complete(text){
+ say("🏆 "+text+" You did amazing, Mum! ❤️");
+ addScore(10);
+}
+function renderGame(){
+ clearGame();
+ switch(current){
+ case 0:houseGame();break;
+ case 1:petGame();break;
+ case 2:cafeGame();break;
+ case 3:flowerGame();break;
+ case 4:aquariumGame();break;
+ case 5:bedroomGame();break;
+ case 6:weddingGame();break;
+ case 7:campGame();break;
+ case 8:boatGame();break;
+ case 9:islandGame();break;
+ case 10:bakeryGame();break;
+ case 11:treasureGame();break;
+ }
+}
+
+/* 1 DREAM HOUSE BUILDER */
+
+function houseGame(){
+ setInstruction("Drag the furniture and decorations into your dream house!");
+ arena.style.background="linear-gradient(#b4d7ff,#f9c4d9 60%,#986c65)";
+ object("☀️",80,8);
+ object("🏠",36,28,100);
+ object("🌳",5,45,65);
+ object("🌳",82,44,65);
+ object("🌷",18,73);
+ object("🌷",65,76);
+ object("🪟",42,42);
+ let count=0;
+ ["🛋️","🛏️","🪑","🪴","💡","🖼️"].forEach((v,i)=>{
+  let b=btn(v+" Place",()=>{
+   object(v,15+(i%3)*30,50+Math.floor(i/3)*18,45);
+   count++;addScore();
+   if(count>=6)complete("Your dream home is ready!");
+  });
+ });
+}
+
+/* 2 MICKY PET CARE */
+
+function petGame(){
+ arena.style.background="linear-gradient(#c8e7ff,#e4b9da 60%,#659a70)";
+ setInstruction("Micky needs your love! Complete all 4 care activities.");
+ object("🐶",37,32,95);
+ object("🧸",10,65);
+ object("🦴",73,68);
+ let needs=["Feed Micky 🍖","Give a Bath 🛁","Brush Fur 🪮","Play Together 🎾"];
+ let done=[];
+ needs.forEach((v,i)=>{
+  btn(v,()=>{
+   if(done.includes(i))return say("You already did this! ❤️");
+   done.push(i);addScore(5);
+   say(["Micky is enjoying the food!","Micky is squeaky clean!","Micky looks so fluffy!","Micky is very happy!"][i]);
+   if(done.length===4)complete("Micky is the happiest pet in the world!");
+  });
+ });
+}
+
+/* 3 LOVE CAFE */
+
+function cafeGame(){
+ arena.style.background="linear-gradient(#f3c5d4,#a46b9d)";
+ setInstruction("Serve the correct order! Complete all 5 customer orders.");
+ object("☕",40,38,85);
+ object("👩🏻‍🍳",10,35,65);
+ let orders=["☕ Coffee","🍰 Cake","🍓 Strawberry","🧋 Milkshake","🍪 Cookie"];
+ let customer=0;
+ let wanted=orders[Math.floor(Math.random()*orders.length)];
+ function show(){
+  arena.innerHTML="";
+  object("👩🏻‍🍳",10,35,65);
+  object("🧑🏻",68,33,65);
+  let t=document.createElement("div");
+  t.style.cssText="position:absolute;top:12%;left:25%;font-size:20px;background:#fff;color:#75456a;padding:12px;border-radius:15px";
+  t.textContent="I want "+wanted;
+  arena.appendChild(t);
+ }
+ show();
+ orders.forEach(v=>btn(v,()=>{
+  if(v!==wanted)return say("Oops! That's not the order. Try again!");
+  customer++;addScore(5);
+  if(customer>=5)return complete("Your café served all 5 happy customers!");
+  wanted=orders[Math.floor(Math.random()*orders.length)];
+  mission=customer+1;updateHUD();show();
+  say("Perfect order! Next customer is waiting.");
+ }));
+}
+
+/* 4 FLOWER SHOP */
+
+function flowerGame(){
+ arena.style.background="linear-gradient(#a9d7e9,#f6c7d9 50%,#537f5a)";
+ setInstruction("Collect 5 flowers to create a beautiful bouquet!");
+ let flowers=["🌹","🌷","🌻","🌸","🌼","💐"];
+ let collected=0;
+ flowers.forEach((v,i)=>{
+  let el=object(v,8+(i%3)*29,18+Math.floor(i/3)*40,48);
+  el.onclick=()=>{
+   if(el.dataset.done)return;
+   el.dataset.done="1";el.style.opacity=".3";
+   collected++;addScore(2);
+   say("Flower collected: "+collected+"/5");
+   if(collected>=5)complete("Your beautiful bouquet is complete!");
+  };
+ });
+}
+
+/* 5 AQUARIUM WORLD */
+
+function aquariumGame(){
+ arena.style.background="linear-gradient(#7de2e7,#2267a2)";
+ setInstruction("Feed the hungry fish and clean your aquarium!");
+ object("🐠",15,22,55);
+ object("🐟",52,48,55);
+ object("🐡",72,22,55);
+ object("🪸",20,72,55);
+ let tasks=0;
+ ["Feed Fish 🫧","Add Sea Plants 🌿","Clean Aquarium 🧽","Add Pearls 🦪"].forEach(v=>{
+  btn(v,()=>{
+   if(gameState[v])return;
+   gameState[v]=true;tasks++;addScore(5);
+   object(["🫧","🌿","✨","🦪"][tasks-1],15+Math.random()*70,30+Math.random()*50);
+   say(v+" completed! 🐠");
+   if(tasks===4)complete("Your aquarium is sparkling!");
+  });
+ });
+}
+
+/* 6 DREAM BEDROOM */
+
+function bedroomGame(){
+ arena.style.background="linear-gradient(#edbedf,#8370ad)";
+ setInstruction("Design your dream bedroom by placing all the furniture.");
+ object("🪟",37,8,65);
+ object("🌙",78,8,60);
+ let items=["🛏️","🪞","🛋️","💡","🪴","🎀"];
+ let done=0;
+ items.forEach(v=>btn("Place "+v,()=>{
+  object(v,10+Math.random()*70,28+Math.random()*45,48);
+  done++;addScore(3);
+  if(done===6)complete("Your dream bedroom is beautiful!");
+ }));
+}
+
+/* 7 WEDDING PLANNER */
+
+function weddingGame(){
+ arena.style.background="linear-gradient(#ffccdf,#d9a4ce 60%,#53835c)";
+ setInstruction("Prepare a perfect wedding. Complete all 5 decorations.");
+ object("💒",32,20,100);
+ object("🌹",12,68);
+ object("🌹",80,68);
+ let tasks=["Flower Arch 🌸","Wedding Cake 🎂","Fairy Lights ✨","Bouquet 💐","Wedding Rings 💍"];
+ let n=0;
+ tasks.forEach(v=>btn(v,()=>{
+  if(gameState[v])return;
+  gameState[v]=true;n++;addScore(5);
+  object(["🌸","🎂","✨","💐","💍"][n-1],15+Math.random()*65,40+Math.random()*35);
+  if(n===5)complete("The wedding is ready! What a beautiful day!");
+ }));
+}
+
+/* 8 MOONLIGHT CAMPING */
+
+function campGame(){
+ arena.style.background="linear-gradient(#171e55,#514e9b 55%,#304c45 56%)";
+ setInstruction("Keep the campfire alive! Tap the wood 10 times.");
+ object("🌙",77,8,60);
+ object("⭐",12,12,30);
+ object("⭐",55,20,25);
+ object("⛺",65,47,80);
+ object("🔥",28,60,75);
+ let wood=0;
+ btn("Add Firewood 🪵",()=>{
+  wood++;addScore(1);
+  say("Campfire energy: "+wood+"/10 🔥");
+  if(wood>=10)complete("The campfire is glowing beautifully!");
+ });
+ btn("Roast Marshmallow 🍡",()=>{
+  if(wood<3)return say("Add some firewood first!");
+  object("🍡",45,55,40);
+  addScore(2);say("Yummy marshmallows under the stars!");
+ });
+}
+
+/* 9 LOVE BOAT */
+
+function boatGame(){
+ arena.style.background="linear-gradient(#f5c1dc,#76c4db 50%,#286b9c)";
+ setInstruction("Steer the boat with LEFT and RIGHT. Collect 10 hearts!");
+ let boat=object("🚤",42,67,70);
+ let x=42,collected=0;
+ for(let i=0;i<10;i++){
+  let h=object("💗",Math.random()*80,Math.random()*50,30);
+  h.dataset.heart="1";
+ }
+ function move(dx){
+  x=Math.max(0,Math.min(82,x+dx));
+  boat.style.left=x+"%";
+  let bx=boat.offsetLeft,by=boat.offsetTop;
+  arena.querySelectorAll('[data-heart="1"]').forEach(h=>{
+   if(h.dataset.got)return;
+   let hx=h.offsetLeft,hy=h.offsetTop;
+   if(Math.abs(bx-hx)<65&&Math.abs(by-hy)<80){
+    h.dataset.got="1";h.style.display="none";
+    collected++;addScore(1);
+    say("Hearts collected "+collected+"/10");
+    if(collected>=10)complete("You collected all the love hearts!");
+   }
+  });
+ }
+ btn("⬅ LEFT",()=>move(-8));
+ btn("RIGHT ➡",()=>move(8));
+ let up=e=>move(e.deltaX>0?6:-6);
+}
+
+/* 10 COUPLE PARADISE */
+
+function islandGame(){
+ arena.style.background="linear-gradient(#83d8e7,#3a8caa 50%,#e9d58d 51%)";
+ setInstruction("Build your own paradise island with 6 structures.");
+ object("🏝️",30,38,100);
+ let items=["🏡","🌴","🌺","⛲","🏖️","💗"];
+ let n=0;
+ items.forEach(v=>btn("Build "+v,()=>{
+  if(gameState[v])return;
+  gameState[v]=true;
+  object(v,10+Math.random()*70,25+Math.random()*50,48);
+  n++;addScore(5);
+  if(n===6)complete("Your romantic paradise is complete!");
+ }));
+}
+
+/* 11 LOVE BAKERY */
+
+function bakeryGame(){
+ arena.style.background="linear-gradient(#f4c5d7,#9b77ae)";
+ setInstruction("Make the perfect cake. Add all 5 ingredients in order!");
+ let ingredients=["🥚","🥛","🌾","🍓","🍫"];
+ let step=0;
+ object("🎂",40,30,100);
+ ingredients.forEach((v,i)=>btn(v+" Add",()=>{
+  if(i!==step)return say("Follow the recipe! Next ingredient: "+ingredients[step]);
+  step++;addScore(4);
+  say("Ingredient added! "+step+"/5");
+  if(step===5)complete("Your love cake is ready! 🍰");
+ }));
+}
+
+/* 12 HEART TREASURE HUNT */
+
+function treasureGame(){
+ arena.style.background="linear-gradient(#b4d5ef,#5b8e9d)";
+ setInstruction("Find the hidden treasure! Remember the treasure location.");
+ let target=Math.floor(Math.random()*9);
+ let attempts=0;
+ let revealed=false;
+ let gridbox=document.createElement("div");
+ gridbox.style.cssText="position:absolute;inset:12%;display:grid;grid-template-columns:repeat(3,1fr);gap:9px";
+ arena.appendChild(gridbox);
+ for(let i=0;i<9;i++){
+  let b=document.createElement("button");
+  b.textContent="❔";
+  b.style.cssText="border:2px solid #ffffff70;border-radius:16px;background:#ffffff30;font-size:35px;color:white";
+  b.onclick=()=>{
+   if(b.dataset.done)return;
+   attempts++;
+   if(i===target){
+    b.textContent="💎";b.dataset.done="1";
+    complete("You found the hidden treasure!");
+   }else{
+    b.textContent="🌱";b.dataset.done="1";
+    say("Not here! Try another tile. Attempts: "+attempts);
+   }
+  };
+  gridbox.appendChild(b);
+ }
+}
+
+/* ---------------- LOVE ENDING ---------------- */
+
+function celebrate(){
+ let count=0;
+ let end=setInterval(()=>{
+  let h=document.createElement("div");
+  h.textContent=["💗","❤️","💕","✨","💖"][Math.floor(Math.random()*5)];
+  h.style.cssText=`position:fixed;left:${Math.random()*95}%;top:${Math.random()*90}%;font-size:35px;pointer-events:none;z-index:100`;
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),2500);
+  count++;
+  if(count>=45)clearInterval(end);
+ },80);
+ say("You and me, forever. I love you Mum! ❤️");
+}
+
+/* ---------------- START ---------------- */
+
+window.addEventListener("load",()=>{
+ startMusic();
+});
+</script>
+</body>
+</html>
